@@ -24,8 +24,8 @@ public class BuildingEntity {
 
     protected BuildingEntity() {}
 
-    public BuildingEntity(String name, String street, String number, String postCode, String city, String country, String description, double longitude, double latitude) {
-        this.uuid = UUID.randomUUID();
+    public BuildingEntity(UUID uuid, String name, String street, String number, String postCode, String city, String country, String description, double longitude, double latitude) {
+        this.uuid = uuid;
         this.name = name;
         this.street = street;
         this.number = number;
@@ -35,6 +35,10 @@ public class BuildingEntity {
         this.description = description;
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+
+    public BuildingEntity(String name, String street, String number, String postCode, String city, String country, String description, double longitude, double latitude) {
+        this(UUID.randomUUID(), name, street, number, postCode, city, country, description, longitude, latitude);
     }
 
     public UUID getUuid() {

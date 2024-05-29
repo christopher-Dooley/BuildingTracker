@@ -13,8 +13,8 @@ public class BuildingDTO {
     private String city;
     private String country;
     private String description;
-    private double longitude;
-    private double latitude;
+    private Double longitude;
+    private Double latitude;
 
     public BuildingDTO(UUID uuid, String name, String street, String number, String postCode, String city, String country, String description, double longitude, double latitude) {
         this.uuid = uuid;
@@ -27,14 +27,6 @@ public class BuildingDTO {
         this.description = description;
         this.longitude = longitude;
         this.latitude = latitude;
-    }
-
-    public BuildingDTO(String name, String street, String number, String postCode, String city, String country, String description, double longitude, double latitude) {
-        this(null, name, street, number, postCode, city, country, description, longitude, latitude);
-    }
-
-    public BuildingDTO(String name, String street, String number, String postCode, String city, String country, String description) {
-        this(null, name, street, number, postCode, city, country, description, Double.NaN, Double.NaN);
     }
 
     public UUID getUuid() {
@@ -101,19 +93,19 @@ public class BuildingDTO {
         this.description = description;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 

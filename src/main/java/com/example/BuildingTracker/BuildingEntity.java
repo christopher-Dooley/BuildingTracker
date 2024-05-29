@@ -37,10 +37,6 @@ public class BuildingEntity {
         this.latitude = latitude;
     }
 
-    public BuildingEntity(String name, String street, String number, String postCode, String city, String country, String description, double longitude, double latitude) {
-        this(UUID.randomUUID(), name, street, number, postCode, city, country, description, longitude, latitude);
-    }
-
     public UUID getUuid() {
         return uuid;
     }

@@ -30,29 +30,11 @@ public class BuildingDTO {
     }
 
     public BuildingDTO(String name, String street, String number, String postCode, String city, String country, String description, double longitude, double latitude) {
-        this.uuid = null;
-        this.name = name;
-        this.street = street;
-        this.number = number;
-        this.postCode = postCode;
-        this.city = city;
-        this.country = country;
-        this.description = description;
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this(null, name, street, number, postCode, city, country, description, longitude, latitude);
     }
 
     public BuildingDTO(String name, String street, String number, String postCode, String city, String country, String description) {
-        this.uuid = null;
-        this.name = name;
-        this.street = street;
-        this.number = number;
-        this.postCode = postCode;
-        this.city = city;
-        this.country = country;
-        this.description = description;
-        this.longitude = Float.NaN;
-        this.latitude = Float.NaN;
+        this(null, name, street, number, postCode, city, country, description, Double.NaN, Double.NaN);
     }
 
     public UUID getUuid() {

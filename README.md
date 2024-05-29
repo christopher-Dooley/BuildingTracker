@@ -6,4 +6,5 @@ Task for skenario job application
 
 # Run 
 java -jar [path to jar file]
+
 Built jar currently in build/libs

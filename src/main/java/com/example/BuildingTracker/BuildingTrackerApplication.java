@@ -7,8 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BuildingTrackerApplication {
 
     public static void main(String[] args) {
-        System.out.println("Hello world");
-//        SpringApplication.run(BuildingTrackerApplication.class, args);
+        SpringApplication.run(BuildingTrackerApplication.class, args);
     }
 
 }

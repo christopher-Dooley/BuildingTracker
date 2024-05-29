@@ -3,7 +3,8 @@ package com.example.BuildingTracker;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
+
 
 import java.util.Objects;
 import java.util.UUID;
@@ -23,6 +24,20 @@ public class BuildingEntity {
     private String description;
     private float longitude;
     private float latitude;
+
+    protected BuildingEntity() {}
+
+    public BuildingEntity(String name, String street, String number, String postCode, String city, String country, String description, float longitude, float latitude) {
+        this.name = name;
+        this.street = street;
+        this.number = number;
+        this.postCode = postCode;
+        this.city = city;
+        this.country = country;
+        this.description = description;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
 
     public UUID getUuid() {
         return uuid;

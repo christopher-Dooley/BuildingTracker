@@ -14,7 +14,7 @@ public class BuildingDTO {
     private double longitude;
     private double latitude;
 
-    public BuildingDTO(String name, String street, String number, String postCode, String city, String country, String description, float longitude, float latitude) {
+    public BuildingDTO(String name, String street, String number, String postCode, String city, String country, String description, double longitude, double latitude) {
         this.name = name;
         this.street = street;
         this.number = number;

@@ -4,6 +4,7 @@ public class BuildingTransformer {
 
     public static BuildingEntity toEntity(BuildingDTO dto) {
         return new BuildingEntity(
+                dto.getUuid(),
                 dto.getName(),
                 dto.getStreet(),
                 dto.getNumber(),
@@ -17,6 +18,7 @@ public class BuildingTransformer {
 
     public static BuildingDTO toDto(BuildingEntity entity) {
         return new BuildingDTO(
+                entity.getUuid(),
                 entity.getName(),
                 entity.getStreet(),
                 entity.getNumber(),

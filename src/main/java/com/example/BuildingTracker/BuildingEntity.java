@@ -24,7 +24,7 @@ public class BuildingEntity {
 
     protected BuildingEntity() {}
 
-    public BuildingEntity(String name, String street, String number, String postCode, String city, String country, String description, float longitude, float latitude) {
+    public BuildingEntity(String name, String street, String number, String postCode, String city, String country, String description, double longitude, double latitude) {
         this.uuid = UUID.randomUUID();
         this.name = name;
         this.street = street;

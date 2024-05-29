@@ -1,8 +1,6 @@
 package com.example.BuildingTracker;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 
@@ -21,8 +19,8 @@ public class BuildingEntity {
     private String city;
     private String country;
     private String description;
-    private float longitude;
-    private float latitude;
+    private double longitude;
+    private double latitude;
 
     protected BuildingEntity() {}
 
@@ -103,7 +101,7 @@ public class BuildingEntity {
         this.description = description;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -111,7 +109,7 @@ public class BuildingEntity {
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -124,7 +122,7 @@ public class BuildingEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BuildingEntity that = (BuildingEntity) o;
-        return Float.compare(longitude, that.longitude) == 0 && Float.compare(latitude, that.latitude) == 0 && Objects.equals(uuid, that.uuid) && Objects.equals(name, that.name) && Objects.equals(street, that.street) && Objects.equals(number, that.number) && Objects.equals(postCode, that.postCode) && Objects.equals(city, that.city) && Objects.equals(country, that.country) && Objects.equals(description, that.description);
+        return Double.compare(longitude, that.longitude) == 0 && Double.compare(latitude, that.latitude) == 0 && Objects.equals(uuid, that.uuid) && Objects.equals(name, that.name) && Objects.equals(street, that.street) && Objects.equals(number, that.number) && Objects.equals(postCode, that.postCode) && Objects.equals(city, that.city) && Objects.equals(country, that.country) && Objects.equals(description, that.description);
     }
 
     @Override

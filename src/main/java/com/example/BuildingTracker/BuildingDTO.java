@@ -1,9 +1,11 @@
 package com.example.BuildingTracker;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class BuildingDTO {
 
+    private UUID uuid;
     private String name;
     private String street;
     private String number;
@@ -14,7 +16,21 @@ public class BuildingDTO {
     private double longitude;
     private double latitude;
 
+    public BuildingDTO(UUID uuid, String name, String street, String number, String postCode, String city, String country, String description, double longitude, double latitude) {
+        this.uuid = uuid;
+        this.name = name;
+        this.street = street;
+        this.number = number;
+        this.postCode = postCode;
+        this.city = city;
+        this.country = country;
+        this.description = description;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
     public BuildingDTO(String name, String street, String number, String postCode, String city, String country, String description, double longitude, double latitude) {
+        this.uuid = null;
         this.name = name;
         this.street = street;
         this.number = number;
@@ -27,6 +43,7 @@ public class BuildingDTO {
     }
 
     public BuildingDTO(String name, String street, String number, String postCode, String city, String country, String description) {
+        this.uuid = null;
         this.name = name;
         this.street = street;
         this.number = number;
@@ -36,6 +53,14 @@ public class BuildingDTO {
         this.description = description;
         this.longitude = Float.NaN;
         this.latitude = Float.NaN;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getName() {
@@ -115,18 +140,19 @@ public class BuildingDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BuildingDTO that = (BuildingDTO) o;
-        return Double.compare(longitude, that.longitude) == 0 && Double.compare(latitude, that.latitude) == 0 && Objects.equals(name, that.name) && Objects.equals(street, that.street) && Objects.equals(number, that.number) && Objects.equals(postCode, that.postCode) && Objects.equals(city, that.city) && Objects.equals(country, that.country) && Objects.equals(description, that.description);
+        return Double.compare(longitude, that.longitude) == 0 && Double.compare(latitude, that.latitude) == 0 && Objects.equals(uuid, that.uuid) && Objects.equals(name, that.name) && Objects.equals(street, that.street) && Objects.equals(number, that.number) && Objects.equals(postCode, that.postCode) && Objects.equals(city, that.city) && Objects.equals(country, that.country) && Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, street, number, postCode, city, country, description, longitude, latitude);
+        return Objects.hash(uuid, name, street, number, postCode, city, country, description, longitude, latitude);
     }
 
     @Override
     public String toString() {
         return "BuildingDTO{" +
-                "name='" + name + '\'' +
+                "uuid=" + uuid +
+                ", name='" + name + '\'' +
                 ", street='" + street + '\'' +
                 ", number='" + number + '\'' +
                 ", postCode='" + postCode + '\'' +

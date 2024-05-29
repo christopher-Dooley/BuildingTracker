@@ -13,7 +13,6 @@ import java.util.UUID;
 public class BuildingEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
     private String name;
     private String street;
@@ -28,6 +27,7 @@ public class BuildingEntity {
     protected BuildingEntity() {}
 
     public BuildingEntity(String name, String street, String number, String postCode, String city, String country, String description, float longitude, float latitude) {
+        this.uuid = UUID.randomUUID();
         this.name = name;
         this.street = street;
         this.number = number;

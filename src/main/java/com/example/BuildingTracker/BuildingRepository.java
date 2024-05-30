@@ -12,4 +12,6 @@ public interface BuildingRepository extends Repository<BuildingEntity, UUID> {
     Optional<BuildingEntity> findById(UUID uuid);
 
     Optional<BuildingEntity> findByName(String name);
+
+    void deleteById(UUID uuid);
 }

@@ -32,12 +32,12 @@ public class BuildingService {
         return repository.findByName(name).map(BuildingTransformer::toDto);
     }
 
-    public Optional<BuildingDTO> newBuilding(BuildingDTO dto) throws CoordinateRequestException {
+    public BuildingDTO newBuilding(BuildingDTO dto) throws CoordinateRequestException {
         try {
             setUuidIfNull(dto);
             setCoordinatesIfNull(dto);
             BuildingEntity savedEntity = repository.save(toEntity(dto));
-            return Optional.of(toDto(savedEntity));
+            return toDto(savedEntity);
         } catch (Exception e) {
             log.error("Saving new building failed", e);
             throw e;
@@ -54,5 +54,15 @@ public class BuildingService {
         if (dto.getLongitude() == null ||  dto.getLatitude() == null) {
             coordinateRequestService.setCoordinatesForBuilding(dto);
         }
+    }
+
+    public void deleteBuilding(UUID uuid) {
+        repository.deleteById(uuid);
+    }
+
+    public BuildingDTO updateBuilding(BuildingDTO buildingDTO) {
+        BuildingEntity toUpdate = toEntity(buildingDTO);
+        BuildingEntity updated = repository.save(toUpdate);
+        return toDto(updated);
     }
 }

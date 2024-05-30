@@ -39,12 +39,9 @@ public class BuildingController {
     public ResponseEntity<BuildingDTO> newBuilding(@RequestBody BuildingDTO buildingDTO, HttpServletRequest request) {
         String requestUri = request.getRequestURI();
         try {
-            return service.newBuilding(buildingDTO)
-                    .map((dto) -> {
-                        URI location = getNewLocationUri(requestUri, dto.getUuid());
-                        return ResponseEntity.created(location).body(dto);
-                    })
-                    .orElseGet(() -> ResponseEntity.internalServerError().build());
+            BuildingDTO dto = service.newBuilding(buildingDTO);
+            URI location = getNewLocationUri(requestUri, dto.getUuid());
+            return ResponseEntity.created(location).body(dto);
         } catch (CoordinateRequestException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
@@ -55,6 +52,17 @@ public class BuildingController {
                 requestUri.substring(0, requestUri.length() -4)
                 .concat(uuid.toString())
         );
+    }
+
+    @DeleteMapping("/building/{uuid}/delete")
+    public ResponseEntity<Void> deleteBuilding(@PathVariable UUID uuid) {
+        service.deleteBuilding(uuid);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/building/update")
+    public ResponseEntity<BuildingDTO> updateBuilding(@RequestBody BuildingDTO buildingDTO) {
+        return ResponseEntity.ok(service.updateBuilding(buildingDTO));
     }
 
 }

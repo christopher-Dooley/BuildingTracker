@@ -20,23 +20,18 @@ import java.util.Map;
 public class CoordinateRequestService {
 
     private HttpClient client;
-
     private String apiUrl;
-
     private String apiKey;
 
-    private String apiParam;
 
     @Autowired
     public CoordinateRequestService(
             HttpClient client,
-            @Value("${location-api.url}") String apiUrl,
-            @Value("${location-api.api-key}")String apiKey,
-            @Value("${location-api.api-param}")String apiParam) {
+            @Value("${location.api.url}") String apiUrl,
+            @Value("${location.api.key}") String apiKey) {
         this.client = client;
         this.apiUrl = apiUrl;
         this.apiKey = apiKey;
-        this.apiParam = apiParam;
     }
 
     public void setCoordinatesForBuilding(BuildingDTO building) throws CoordinateRequestException {
@@ -69,7 +64,7 @@ public class CoordinateRequestService {
     }
 
     public URI createUri(String encodedAddress) {
-        String uri = apiUrl + encodedAddress + apiParam + apiKey;
+        String uri = apiUrl + encodedAddress + "&apiKey=" + apiKey;
         return URI.create(uri);
     }
 

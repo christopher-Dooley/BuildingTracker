@@ -9,3 +9,8 @@ spring:
     driverClassName: org.h2.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+
+location-api:
+  url: "https://api.geoapify.com/v1/geocode/search?text="
+  api-param: "&apiKey="
+  api-key: ${LOCATION_API_KEY}

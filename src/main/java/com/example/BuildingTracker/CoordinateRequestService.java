@@ -3,15 +3,12 @@ package com.example.BuildingTracker;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriUtils;
 
 import java.net.URI;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -22,7 +19,6 @@ import java.util.Map;
 @Service
 public class CoordinateRequestService {
 
-    private static final Logger log = LoggerFactory.getLogger(CoordinateRequestService.class);
     private final  HttpClient client;
     private final String apiUrl;
     private final String apiKey;
@@ -46,8 +42,6 @@ public class CoordinateRequestService {
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            log.warn(response.toString());
-            log.warn(response.body());
             Map<String, Double> coordinates = getCoordinatesFromResponse(response);
             building.setLongitude(coordinates.get("longitude"));
             building.setLatitude(coordinates.get("latitude"));
@@ -70,10 +64,7 @@ public class CoordinateRequestService {
     }
 
     public URI createUri(String encodedAddress) {
-        log.warn(apiUrl);
-        log.warn(encodedAddress);
         String uri = apiUrl + encodedAddress + "&format=json&apiKey=" + apiKey;
-        log.warn(uri);
         return URI.create(uri);
     }
 

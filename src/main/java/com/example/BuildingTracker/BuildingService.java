@@ -50,7 +50,7 @@ public class BuildingService {
         }
     }
 
-    // 0N, 0E is fine for a check since it's in the middle of the atlantic ocean with no buildings
+    // 0N, 0E is fine for a check since it's in the atlantic ocean with no buildings
     private void setCoordinatesIfZero(BuildingDTO dto) throws CoordinateRequestException {
         if (dto.getLongitude() == 0 ||  dto.getLatitude() == 0) {
             coordinateRequestService.setCoordinatesForBuilding(dto);

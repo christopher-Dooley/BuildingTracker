@@ -34,7 +34,6 @@ public class BuildingService {
 
     public BuildingDTO newBuilding(BuildingDTO dto) throws CoordinateRequestException {
         try {
-            log.warn(dto.toString());
             setUuidIfNull(dto);
             setCoordinatesIfZero(dto);
             BuildingEntity savedEntity = repository.save(toEntity(dto));
@@ -64,8 +63,8 @@ public class BuildingService {
 
     // always update coordinates based on new address
     public BuildingDTO updateBuilding(BuildingDTO buildingDTO) throws CoordinateRequestException {
-        BuildingEntity toUpdate = toEntity(buildingDTO);
         coordinateRequestService.setCoordinatesForBuilding(buildingDTO);
+        BuildingEntity toUpdate = toEntity(buildingDTO);
         BuildingEntity updated = repository.save(toUpdate);
         return toDto(updated);
     }

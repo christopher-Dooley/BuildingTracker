@@ -3,8 +3,10 @@ package com.example.BuildingTracker;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
 import java.util.UUID;
@@ -37,12 +39,16 @@ public class BuildingController {
     @PostMapping("/building/save")
     public ResponseEntity<BuildingDTO> newBuilding(@RequestBody BuildingDTO buildingDTO, HttpServletRequest request) {
         String requestUri = request.getRequestURI();
-        return service.newBuilding(buildingDTO)
-                .map((dto) -> {
-                    URI location = getNewLocationUri(requestUri, dto.getUuid());
-                    return ResponseEntity.created(location).body(dto);
+        try {
+            return service.newBuilding(buildingDTO)
+                    .map((dto) -> {
+                        URI location = getNewLocationUri(requestUri, dto.getUuid());
+                        return ResponseEntity.created(location).body(dto);
                     })
-                .orElseGet(() -> ResponseEntity.internalServerError().build());
+                    .orElseGet(() -> ResponseEntity.internalServerError().build());
+        } catch (CoordinateRequestException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
     }
 
     private URI getNewLocationUri(String requestUri, UUID uuid) {

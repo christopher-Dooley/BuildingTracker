@@ -21,14 +21,14 @@ public class BuildingController {
     }
 
 
-    @GetMapping("/building/{name}")
+    @GetMapping("/building/name/{name}")
     public ResponseEntity<BuildingDTO> getBuildingByName(@PathVariable String name) {
         return service.findBuildingByName(name)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/building/{uuid}")
+    @GetMapping("/building/id/{uuid}")
     public ResponseEntity<BuildingDTO> getBuildingByUuid(@PathVariable UUID uuid) {
         return service.findBuildingByUUID(uuid)
                 .map(ResponseEntity::ok)

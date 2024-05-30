@@ -62,7 +62,11 @@ public class BuildingController {
 
     @PutMapping("/building/update")
     public ResponseEntity<BuildingDTO> updateBuilding(@RequestBody BuildingDTO buildingDTO) {
-        return ResponseEntity.ok(service.updateBuilding(buildingDTO));
+        try {
+            return ResponseEntity.ok(service.updateBuilding(buildingDTO));
+        } catch (CoordinateRequestException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
     }
 
 }

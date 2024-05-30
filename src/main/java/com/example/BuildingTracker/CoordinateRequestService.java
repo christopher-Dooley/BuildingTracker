@@ -3,6 +3,7 @@ package com.example.BuildingTracker;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +19,25 @@ import java.util.Map;
 @Service
 public class CoordinateRequestService {
 
-    private final HttpClient client = HttpClient.newHttpClient();
-    @Value("${location-api.url}")
+    private HttpClient client;
+
     private String apiUrl;
-    @Value("${location-api.api-key}")
+
     private String apiKey;
-    @Value("${location-api.api-param}")
+
     private String apiParam;
+
+    @Autowired
+    public CoordinateRequestService(
+            HttpClient client,
+            @Value("${location-api.url}") String apiUrl,
+            @Value("${location-api.api-key}")String apiKey,
+            @Value("${location-api.api-param}")String apiParam) {
+        this.client = client;
+        this.apiUrl = apiUrl;
+        this.apiKey = apiKey;
+        this.apiParam = apiParam;
+    }
 
     public void setCoordinatesForBuilding(BuildingDTO building) throws CoordinateRequestException {
         String address = getAddress(building);

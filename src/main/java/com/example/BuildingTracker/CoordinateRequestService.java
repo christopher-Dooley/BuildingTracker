@@ -3,9 +3,12 @@ package com.example.BuildingTracker;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriUtils;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -19,9 +22,10 @@ import java.util.Map;
 @Service
 public class CoordinateRequestService {
 
-    private HttpClient client;
-    private String apiUrl;
-    private String apiKey;
+    private static final Logger log = LoggerFactory.getLogger(CoordinateRequestService.class);
+    private final  HttpClient client;
+    private final String apiUrl;
+    private final String apiKey;
 
 
     @Autowired
@@ -42,6 +46,8 @@ public class CoordinateRequestService {
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            log.warn(response.toString());
+            log.warn(response.body());
             Map<String, Double> coordinates = getCoordinatesFromResponse(response);
             building.setLongitude(coordinates.get("longitude"));
             building.setLatitude(coordinates.get("latitude"));
@@ -50,9 +56,9 @@ public class CoordinateRequestService {
         }
     }
 
+    // don't use the name, number and street gets better results
     public String getAddress(BuildingDTO building) {
-        return building.getName() + ", " +
-                building.getNumber() + ", " +
+        return building.getNumber() + " " +
                 building.getStreet() + ", " +
                 building.getCity() + ", " +
                 building.getPostCode() + ", " +
@@ -60,11 +66,14 @@ public class CoordinateRequestService {
     }
 
     public String encodeAddress(String address) {
-        return URLEncoder.encode(address, StandardCharsets.UTF_8);
+        return UriUtils.encode(address, StandardCharsets.UTF_8);
     }
 
     public URI createUri(String encodedAddress) {
-        String uri = apiUrl + encodedAddress + "&apiKey=" + apiKey;
+        log.warn(apiUrl);
+        log.warn(encodedAddress);
+        String uri = apiUrl + encodedAddress + "&format=json&apiKey=" + apiKey;
+        log.warn(uri);
         return URI.create(uri);
     }
 
@@ -79,7 +88,7 @@ public class CoordinateRequestService {
 
     public Map<String, Double> getCoordinatesFromResponse(HttpResponse<String> response) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode buildingDetails = mapper.readTree(response.body()).path("results").path("0");
+        JsonNode buildingDetails = mapper.readTree(response.body()).path("results").path(0);
 
         Map<String, Double> coordinates = new HashMap<>();
         coordinates.put("longitude", buildingDetails.get("lon").asDouble());

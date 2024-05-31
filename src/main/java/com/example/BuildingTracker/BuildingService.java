@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.example.BuildingTracker.BuildingTransformer.toDto;
 import static com.example.BuildingTracker.BuildingTransformer.toEntity;
@@ -74,5 +75,9 @@ public class BuildingService {
 
     public void saveManyBuildings(Collection<BuildingDTO> buildings) {
         buildings.stream().map(dto -> (Runnable) () -> saveBuilding(dto)).forEach(threadPool::submitTask);
+    }
+
+    public Collection<BuildingDTO> findAll() {
+        return repository.findAll().stream().map(BuildingTransformer::toDto).collect(Collectors.toSet());
     }
 }

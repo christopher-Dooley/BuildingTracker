@@ -76,4 +76,9 @@ public class BuildingController {
         return ResponseEntity.accepted().build();
     }
 
+    @GetMapping("/buildings/all")
+    public ResponseEntity<Collection<BuildingDTO>> getAllBuildings() {
+        return ResponseEntity.ok(service.findAll());
+    }
+
 }

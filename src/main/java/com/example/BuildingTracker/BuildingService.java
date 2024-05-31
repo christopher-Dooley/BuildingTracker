@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,11 +18,13 @@ public class BuildingService {
     private static final Logger log = LoggerFactory.getLogger(BuildingService.class);
     private final BuildingRepository repository;
     private final CoordinateRequestService coordinateRequestService;
+    private final ThreadPool threadPool;
 
     @Autowired
-    public BuildingService(BuildingRepository repository, CoordinateRequestService coordinateRequestService) {
+    public BuildingService(BuildingRepository repository, CoordinateRequestService coordinateRequestService, ThreadPool threadPool) {
         this.repository = repository;
         this.coordinateRequestService = coordinateRequestService;
+        this.threadPool = threadPool;
     }
 
     public Optional<BuildingDTO> findBuildingByUUID(UUID uuid) {
@@ -32,7 +35,7 @@ public class BuildingService {
         return repository.findByName(name).map(BuildingTransformer::toDto);
     }
 
-    public BuildingDTO newBuilding(BuildingDTO dto) {
+    public BuildingDTO saveBuilding(BuildingDTO dto) {
         try {
             setUuidIfNull(dto);
             setCoordinatesIfZero(dto);
@@ -67,5 +70,9 @@ public class BuildingService {
         BuildingEntity toUpdate = toEntity(buildingDTO);
         BuildingEntity updated = repository.save(toUpdate);
         return toDto(updated);
+    }
+
+    public void saveManyBuildings(Collection<BuildingDTO> buildings) {
+        buildings.stream().map(dto -> (Runnable) () -> saveBuilding(dto)).forEach(threadPool::submitTask);
     }
 }

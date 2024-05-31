@@ -34,6 +34,14 @@ The command to build a new jar is:
 - .\gradlew.bat clean bootJar if you're on windows
 - ./gradlew clean bootJar if you're on a sensible OS
 
+### Prerequisites
+You will need to set a local environment variable called LOCATION_API_KEY containing an API key for geoapify.com.
+Visit https://www.geoapify.com/ to make a free account and get your api key.
+
+### Run
+java -jar [path to jar file]
+
+### Docker
 To build a docker image you need to run
 - .\gradlew.bat clean buildImage if you're on windows
 - ./gradlew clean buildImage if you're on a sensible OS
@@ -44,12 +52,7 @@ Then you should be able to see a new image when you run
 You can run it with 
 `docker run -p 8080:8080 -e LOCATION_API_KEY=[your api key here] --name test -d test/building-tracker-1 `
 
-### Prerequisites
-You will need to set a local environment variable called LOCATION_API_KEY containing an API key for geoapify.com.
-Visit https://www.geoapify.com/ to make a free account and get your api key.
 
-### Run 
-java -jar [path to jar file]
 
 You can find the built jar in build/libs.
 

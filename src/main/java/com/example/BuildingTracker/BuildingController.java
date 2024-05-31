@@ -70,7 +70,7 @@ public class BuildingController {
         }
     }
 
-    @PostMapping("/buildings/new")
+    @PostMapping("/buildings/save")
     public ResponseEntity<Void> saveManyBuildings(@RequestBody Collection<BuildingDTO> buildings) {
         service.saveManyBuildings(buildings);
         return ResponseEntity.accepted().build();

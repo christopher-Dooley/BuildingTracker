@@ -17,7 +17,6 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 @Service
 public class CoordinateRequestService {
@@ -25,7 +24,7 @@ public class CoordinateRequestService {
     private final  HttpClient client;
     private final String apiUrl;
     private final String apiKey;
-    private final RateLimiter rateLimiter;;
+    private final RateLimiter rateLimiter;
 
 
     @Autowired

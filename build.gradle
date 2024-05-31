@@ -2,7 +2,10 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.0'
     id 'io.spring.dependency-management' version '1.1.5'
+    id "com.bmuschko.docker-remote-api" version "9.4.0"
 }
+
+import com.bmuschko.gradle.docker.tasks.image.*
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
@@ -22,7 +25,6 @@ dependencies {
     implementation 'io.github.resilience4j:resilience4j-ratelimiter:2.2.0'
     implementation 'com.google.guava:guava:33.2.0-jre'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
-    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
@@ -34,6 +36,32 @@ jar {
         attributes 'Main-Class': 'com.example.BuildingTracker.BuildingTrackerApplication'
     }
 }
+
+
+tasks.register('createDockerfile', Dockerfile) {
+    destFile = project.file('build/docker/Dockerfile')
+    from 'amazoncorretto:21-alpine-jdk'
+    copyFile jar.archiveFileName.get(), '/app/building-tracker.jar'
+    entryPoint 'java'
+    defaultCommand '-jar', '/app/building-tracker.jar'
+    exposePort 8080
+    runCommand 'apk --update --no-cache add curl'
+    instruction 'HEALTHCHECK CMD curl -f http://localhost:8080/health || exit 1'
+}
+
+tasks.register('buildImage', DockerBuildImage) {
+    dependsOn createDockerfile
+    inputDir.set(file("build/docker"))
+    images.add("test/building-tracker-1")
+}
+
+tasks.register('syncAppArchive', Sync) {
+    dependsOn assemble
+    from jar.archiveFile
+    into project.file('build/docker')
+}
+
+createDockerfile.dependsOn syncAppArchive
 
 
 

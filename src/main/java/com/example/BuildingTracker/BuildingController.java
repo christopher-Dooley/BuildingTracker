@@ -85,10 +85,10 @@ public class BuildingController {
     @GetMapping("/buildings/paged")
     public ResponseEntity<Page<BuildingDTO>> getAllBuildingsPaged(
             @RequestParam int page,
-            @RequestParam int pageSize,
+            @RequestParam(name = "size") int pageSize,
             @RequestParam boolean sort,
-            @RequestParam String sortBy,
-            @RequestParam boolean sortAscending
+            @RequestParam(name = "by") String sortBy,
+            @RequestParam(name = "asc") boolean sortAscending
     ) {
         return ResponseEntity.ok(service.findAllPaged(page, pageSize, sort, sortBy, sortAscending));
     }

@@ -37,10 +37,10 @@ public class BuildingController {
     }
 
     @PostMapping("/building/save")
-    public ResponseEntity<BuildingDTO> newBuilding(@RequestBody BuildingDTO buildingDTO, HttpServletRequest request) {
+    public ResponseEntity<BuildingDTO> saveBuilding(@RequestBody BuildingDTO buildingDTO, HttpServletRequest request) {
         String requestUri = request.getRequestURI();
         try {
-            BuildingDTO dto = service.newBuilding(buildingDTO);
+            BuildingDTO dto = service.saveBuilding(buildingDTO);
             URI location = getNewLocationUri(requestUri, dto.getUuid());
             return ResponseEntity.created(location).body(dto);
         } catch (CoordinateRequestException e) {
@@ -71,9 +71,8 @@ public class BuildingController {
     }
 
     @PostMapping("/buildings/new")
-    public ResponseEntity<Void> manyNewBuildings(@RequestBody Collection<BuildingDTO> buildingDTOCollection) {
-
-
+    public ResponseEntity<Void> saveManyBuildings(@RequestBody Collection<BuildingDTO> buildings) {
+        service.saveManyBuildings(buildings);
         return ResponseEntity.accepted().build();
     }
 

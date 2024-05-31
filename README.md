@@ -6,13 +6,13 @@ Gradle) to allow the user to add, view, update, and delete their buildings.
 
 
 Allow the user to add new buildings with the parameters:
-● Name of the building
-● Street
-● Number
-● Postal code
-● City
-● Country
-● Description
+- Name of the building
+- Street
+- Number
+- Postal code
+- City
+- Country
+- Description
 
 
 The backend should take a list of buildings to save (could be one or multiple

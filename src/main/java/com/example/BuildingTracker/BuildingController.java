@@ -3,6 +3,7 @@ package com.example.BuildingTracker;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -83,7 +84,7 @@ public class BuildingController {
     }
 
     @GetMapping("/buildings/paged")
-    public ResponseEntity<Page<BuildingDTO>> getAllBuildingsPaged(
+    public ResponseEntity<PagedModel<BuildingDTO>> getAllBuildingsPaged(
             @RequestParam int page,
             @RequestParam(name = "size") int pageSize,
             @RequestParam(defaultValue = "false") boolean sort,

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -82,7 +83,7 @@ public class BuildingService {
         return repository.findAll().stream().map(BuildingTransformer::toDto).collect(Collectors.toSet());
     }
 
-    public Page<BuildingDTO> findAllPaged(int page, int pageSize, boolean sort, String sortBy, boolean sortAscending) {
+    public PagedModel<BuildingDTO> findAllPaged(int page, int pageSize, boolean sort, String sortBy, boolean sortAscending) {
         Pageable pageRequest;
         if (sort) {
             Sort.Direction direction;
@@ -96,10 +97,10 @@ public class BuildingService {
             pageRequest = PageRequest.of(page, pageSize);
         }
         Page<BuildingEntity> entityPage = repository.findAll(pageRequest);
-        return new PageImpl<>(
+        return new PagedModel<>(new PageImpl<>(
                 entityPage.stream().map(BuildingTransformer::toDto).collect(Collectors.toList()),
                 pageRequest,
-                entityPage.getTotalPages()
-        );
+                entityPage.getTotalElements()
+        ));
     }
 }

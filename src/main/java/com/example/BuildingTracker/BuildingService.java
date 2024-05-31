@@ -3,6 +3,7 @@ package com.example.BuildingTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -79,5 +80,26 @@ public class BuildingService {
 
     public Collection<BuildingDTO> findAll() {
         return repository.findAll().stream().map(BuildingTransformer::toDto).collect(Collectors.toSet());
+    }
+
+    public Page<BuildingDTO> findAllPaged(int page, int pageSize, boolean sort, String sortBy, boolean sortAscending) {
+        Pageable pageRequest;
+        if (sort) {
+            Sort.Direction direction;
+            if (sortAscending) {
+                direction = Sort.Direction.ASC;
+            } else {
+                direction = Sort.Direction.DESC;
+            }
+            pageRequest = PageRequest.of(page, pageSize, Sort.by(direction, sortBy));
+        } else {
+            pageRequest = PageRequest.of(page, pageSize);
+        }
+        Page<BuildingEntity> entityPage = repository.findAll(pageRequest);
+        return new PageImpl<>(
+                entityPage.stream().map(BuildingTransformer::toDto).collect(Collectors.toList()),
+                pageRequest,
+                entityPage.getTotalPages()
+        );
     }
 }

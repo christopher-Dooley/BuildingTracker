@@ -1,12 +1,12 @@
 package com.example.BuildingTracker;
 
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface BuildingRepository extends Repository<BuildingEntity, UUID> {
+public interface BuildingRepository extends PagingAndSortingRepository<BuildingEntity, UUID> {
 
     BuildingEntity save(BuildingEntity building);
 

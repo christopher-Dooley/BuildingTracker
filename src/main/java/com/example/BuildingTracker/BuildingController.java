@@ -2,6 +2,7 @@ package com.example.BuildingTracker;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -79,6 +80,16 @@ public class BuildingController {
     @GetMapping("/buildings/all")
     public ResponseEntity<Collection<BuildingDTO>> getAllBuildings() {
         return ResponseEntity.ok(service.findAll());
+    }
+
+    @GetMapping("/buildings/paged")
+    public ResponseEntity<Page<BuildingDTO>> getAllBuildingsPaged(@RequestBody PagedRequest pagedRequest) {
+        return ResponseEntity.ok(service.findAllPaged(
+                pagedRequest.getPage(),
+                pagedRequest.getPageSize(),
+                pagedRequest.isSort(),
+                pagedRequest.getSortBy(),
+                pagedRequest.isSortAscending()));
     }
 
 }

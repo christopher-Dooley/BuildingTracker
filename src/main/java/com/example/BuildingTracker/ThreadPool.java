@@ -8,8 +8,8 @@ import java.util.concurrent.*;
 @Component
 public class ThreadPool {
 
-    private ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(50);
-    private ExecutorService executorService = MoreExecutors.getExitingExecutorService(executor, 10, TimeUnit.SECONDS);
+    private final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(50);
+    private final ExecutorService executorService = MoreExecutors.getExitingExecutorService(executor, 10, TimeUnit.SECONDS);
 
     public void submitTask(Runnable task) {
         executorService.submit(task);

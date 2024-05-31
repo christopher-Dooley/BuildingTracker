@@ -32,7 +32,7 @@ public class BuildingService {
         return repository.findByName(name).map(BuildingTransformer::toDto);
     }
 
-    public BuildingDTO newBuilding(BuildingDTO dto) throws CoordinateRequestException {
+    public BuildingDTO newBuilding(BuildingDTO dto) {
         try {
             setUuidIfNull(dto);
             setCoordinatesIfZero(dto);
@@ -51,9 +51,9 @@ public class BuildingService {
     }
 
     // 0N, 0E is fine for a check since it's in the atlantic ocean with no buildings
-    private void setCoordinatesIfZero(BuildingDTO dto) throws CoordinateRequestException {
+    private void setCoordinatesIfZero(BuildingDTO dto) {
         if (dto.getLongitude() == 0 ||  dto.getLatitude() == 0) {
-            coordinateRequestService.setCoordinatesForBuilding(dto);
+            coordinateRequestService.limitedSetCoordinatesForBuilding(dto);
         }
     }
 
@@ -62,8 +62,8 @@ public class BuildingService {
     }
 
     // always update coordinates based on new address
-    public BuildingDTO updateBuilding(BuildingDTO buildingDTO) throws CoordinateRequestException {
-        coordinateRequestService.setCoordinatesForBuilding(buildingDTO);
+    public BuildingDTO updateBuilding(BuildingDTO buildingDTO) {
+        coordinateRequestService.limitedSetCoordinatesForBuilding(buildingDTO);
         BuildingEntity toUpdate = toEntity(buildingDTO);
         BuildingEntity updated = repository.save(toUpdate);
         return toDto(updated);

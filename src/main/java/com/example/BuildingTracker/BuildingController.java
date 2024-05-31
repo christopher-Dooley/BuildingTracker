@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.UUID;
 
 @RestController
@@ -67,6 +68,13 @@ public class BuildingController {
         } catch (CoordinateRequestException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
+    }
+
+    @PostMapping("/buildings/new")
+    public ResponseEntity<Void> manyNewBuildings(@RequestBody Collection<BuildingDTO> buildingDTOCollection) {
+
+
+        return ResponseEntity.accepted().build();
     }
 
 }
